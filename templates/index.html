@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Consulta de Cantidades</title>
+</head>
+<body>
+    <h1>Consulta de Cantidades Disponibles</h1>
+    <form id="filter-form">
+        <label for="region">Región:</label>
+        <input type="text" id="region" name="region"><br><br>
+
+        <label for="store">Tienda:</label>
+        <input type="text" id="store" name="store"><br><br>
+
+        <label for="department">Departamento:</label>
+        <input type="text" id="department" name="department"><br><br>
+
+        <label for="category">Categoría:</label>
+        <input type="text" id="category" name="category"><br><br>
+
+        <label for="item">Artículo:</label>
+        <input type="text" id="item" name="item"><br><br>
+
+        <input type="submit" value="Consultar">
+    </form>
+
+    <div id="results">
+        <!-- Aquí se mostrarán los resultados de la consulta -->
+    </div>
+
+    <script>
+        document.getElementById('filter-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Obtener los valores de los campos de filtro
+            var region = document.getElementById('region').value;
+            var store = document.getElementById('store').value;
+            var department = document.getElementById('department').value;
+            var category = document.getElementById('category').value;
+            var item = document.getElementById('item').value;
+
+            // Realizar una solicitud a la API con los parámetros de filtro
+            fetch('/get_quantities?region=' + region + '&store=' + store + '&department=' + department + '&category=' + category + '&item=' + item)
+                .then(response => response.json())
+                .then(data => {
+                    // Mostrar los resultados en la página
+                    var resultsDiv = document.getElementById('results');
+                    resultsDiv.innerHTML = 'Cantidades disponibles: ' + data.quantities.join(', ');
+                });
+        });
+    </script>
+</body>
+</html>
